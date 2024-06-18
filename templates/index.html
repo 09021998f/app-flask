@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{%block title%}Despachante{%endblock%}
+{%block content%}
+
+
+<div class="contenedor">
+    <h1>Despachante</h1>
+    <form action="{{request.path}}", method="post">
+        <label for = 'sucursal'>Seleccion una sucursal</label>
+        <select name="sucursal">
+            {% for sucursal in sucursales %}
+                <option value="{{sucursal.id}}">{{sucursal.numero}},{{sucursal.provincia}},{{sucursal.localidad}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Seleccionar">
+    </form>
+</div>
+
+{%endblock%}
