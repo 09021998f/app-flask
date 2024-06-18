@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{%block title%}Registrar Pedido{%endblock%}
+{%block content%}
+
+    <div>
+        <div class="header_paquete">
+            <h1>Registrar Paquete</h1>
+            <p>Sucursal: {{sucursal.provincia}}, {{sucursal.localidad}} </p>
+        </div>
+        <div class="formulario_paquete">
+            <form  method="post">
+                <label for="peso">Peso del Paquete:</label>
+                <input type="text" id="peso" name="peso" required>
+                <br><br>
+                <label for="nombre">Nombre del Destinatario:</label>
+                <input type="text" id="nombre" name="nombre" required>
+                <br><br>
+                <label for="dir">Dirección del Destinatario:</label>
+                <input type="text" id="dir" name="dir" required>
+                <input id="userId" name="userId" type="hidden" value="{{sucursal.id}}"> 
+                <br><br>
+                <input type="submit" value="Registrar">
+            </form>
+            <p> {{msg}} </p>
+        </div>
+    </div>
+
+{%endblock%}
