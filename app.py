@@ -34,8 +34,8 @@ def registrar_paquete(sucursal):
             try:
                 ultimo_envio = Paquete.query.order_by(Paquete.id.desc()).first()
                 nuevo_nro_envio = ultimo_envio.numeroenvio + 20
-                nuevo_paquete = Paquete(numeroenvio = nuevo_nro_envio, peso = request.form.get('peso'), nomdestinatario = request.form.get('nombre'), dirdestinatario = request.form.get('dir'), entregado = False, idsucursal = request.form.get('userId') )
-                print(request.form.get('userId'))
+                nuevo_paquete = Paquete(numeroenvio = nuevo_nro_envio, peso = request.form.get('peso'), nomdestinatario = request.form.get('nombre'), dirdestinatario = request.form.get('dir'), entregado = False ,observaciones = ' ', idsucursal = request.form.get('userId'), idtransporte = 0, idrepartidor = 0 )
+                
                 db.session.add(nuevo_paquete)
                 db.session.commit()
                 return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=id_sucursal).first(), msg = 'Registo Exitoso!')
