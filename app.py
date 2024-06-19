@@ -47,6 +47,16 @@ def registrar_paquete(sucursal):
         id_sucursal = sucursal
         return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=id_sucursal).first())
 
+@app.route('/solicitar_transporte/<int:sucursal>', methods = ['GET', 'POST'])
+def solicitar_transporte(sucursal):
+    if request.method == 'POST':
+        sucursal_destino = request.form.get('sucursal')
+        paquetes_obt = Paquete.query.filter_by(idsucursal = sucursal).all()
+        print(paquetes_obt)
+        return render_template('lista_paquetes.html', paquetes = paquetes_obt )
+    else:
+        return render_template('solicitar_transporte.html', sucursales = Sucursal.query.all()  )
+
 
 if __name__ == '__main__':
     with app.app_context():

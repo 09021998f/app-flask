@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{%block title%}Solicitar Transporte{%endblock%}
+{%block content%}
+
+<div class="contenedor_lista">
+    <form action="{{request.path}}", method="post">
+        <label for = 'sucursal'>Selecciona sucursal de destino</label>
+        <select name="sucursal">
+            {% for sucursal in sucursales %}
+                <option value="{{sucursal.id}}">{{sucursal.numero}},{{sucursal.provincia}},{{sucursal.localidad}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Seleccionar">
+    </form>
+</div>
+
+
+{%endblock%}

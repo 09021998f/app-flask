@@ -210,3 +210,66 @@ a{
     font-style: italic;
     color: #45a049;
 }
+
+
+/* Listado de paquetes */
+
+.lista_paquetes {
+    text-align: center;
+    font-family: 'open sans', sans-serif;
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.lista_paquetes h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.lista_paquetes table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.lista_paquetes th, .lista_paquetes td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.lista_paquetes th {
+    background-color: #4CAF50;
+    color: white;
+    text-transform: uppercase;
+}
+
+.lista_paquetes tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.lista_paquetes tr:hover {
+    background-color: #f1f1f1;
+}
+
+.lista_paquetes td {
+    color: #555;
+}
+
+.lista_paquetes th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.lista_paquetes tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.lista_paquetes tr:hover {
+    background-color: #ddd;
+}
