@@ -144,8 +144,24 @@ a{
 /* Registrar paquete */
 
 .header_paquete{
+
     text-align: center;
 }
+
+.header_paquete a{
+    display: flex;
+    padding-top: 0.8rem;
+    font-size: 1.5rem; /* Tamaño de fuente */
+    text-decoration: none; /* Quitar subrayado predeterminado */
+    color:black; /* Color de texto */
+    transition: color 0.3s ease; /* Transición suave del color del texto */
+}
+
+.header_paquete a:hover {
+    color: #007BFF; /* Cambiar color al pasar el ratón */
+}
+
+
 .formulario_paquete {
     max-width: 400px;
     margin: 0 auto;
@@ -211,6 +227,17 @@ a{
     color: #45a049;
 }
 
+
+.contenedor_lista{
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #BFC9CA;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra ligera */
+}
 
 /* Listado de paquetes */
 

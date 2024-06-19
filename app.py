@@ -53,6 +53,8 @@ def solicitar_transporte(sucursal):
         sucursal_destino = request.form.get('sucursal')
         paquetes_obt = Paquete.query.filter_by(idsucursal = sucursal).all()
         print(paquetes_obt)
+        if paquetes_obt == []:
+            return render_template('solicitar_transporte.html', sucursales = Sucursal.query.all(), msg = 'No hay paquetes en esta sucursal disponibles')
         return render_template('lista_paquetes.html', paquetes = paquetes_obt )
     else:
         return render_template('solicitar_transporte.html', sucursales = Sucursal.query.all()  )
