@@ -10,41 +10,35 @@ from models import *
 
 @app.route('/', methods = ['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-            id_sucursal = request.form['sucursal']  # Obtener el ID de sucursal desde el formulario
-            if id_sucursal:  # Si se proporciona un ID de sucursal en el formulario
-                sucursal = Sucursal.query.filter_by(id=id_sucursal).first()  # Obtener la sucursal por su ID
-                if sucursal:
-                    return render_template('home_despachante.html', sucursal=sucursal)
-                else:
-                    return 'No se encontró la sucursal.', 404  # Manejar caso de no encontrar la sucursal
-            else:
+    if request.method == 'POST':                                                    #   Espera a recibir una solicitud post
+            id_sucursal = request.form['sucursal']                                  #   una vez recibila solicitud guarda el valor obtenido en id_sucursal
+            if id_sucursal:                                                         #   Verifico si id_sucursal tiene un valor
+                sucursal = Sucursal.query.filter_by(id=id_sucursal).first()         #   obtengo una instancia de Sucursal en la base de datos q conincida con id_sucursal
+                return render_template('home_despachante.html', sucursal=sucursal)  #   Renderizo la pagina home_despachante cual tiene links de las funcionalidades de despachante
+            else:                                                                   #   si no recibo ningun valor del formulario renderizo la pagina index.html
                 return render_template('index.html', sucursales=Sucursal.query.all())
     else:
-        return render_template('index.html', sucursales=Sucursal.query.all())
+        return render_template('index.html', sucursales=Sucursal.query.all())       #   Al no recibir solicitud post renderiza la pagina
 
 @app.route('/registrar_paquete/<int:sucursal>', methods = ['GET', 'POST'])
 def registrar_paquete(sucursal):
-    if request.method == 'POST':
-        id_sucursal = sucursal
-        if not request.form.get('peso') and request.form.get('nombre') and request.form.get():
+    if request.method == 'POST':#   Espera a recibir una solicitud post, si se ejecuta signfica q el usuario a enviado un formulario para registrar
+        if not request.form.get('peso') and request.form.get('nombre') and request.form.get():# validacion de todos los campos
             return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=sucursal).first(), msg = 'Todos los campos son obligatorios!')
         else:
             try:
-                ultimo_envio = Paquete.query.order_by(Paquete.id.desc()).first()
-                nuevo_nro_envio = ultimo_envio.numeroenvio + 20
+                ultimo_envio = Paquete.query.order_by(Paquete.id.desc()).first() #obtengo el ultimo envio registrado desde la base de datos
+                nuevo_nro_envio = ultimo_envio.numeroenvio + 20 #   incremento en 20 para generar un nuevo numero de envio
                 nuevo_paquete = Paquete(numeroenvio = nuevo_nro_envio, peso = request.form.get('peso'), nomdestinatario = request.form.get('nombre'), dirdestinatario = request.form.get('dir'), entregado = False ,observaciones = ' ', idsucursal = request.form.get('userId'), idtransporte = 0, idrepartidor = 0 )
-                
-                db.session.add(nuevo_paquete)
-                db.session.commit()
-                return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=id_sucursal).first(), msg = 'Registro Exitoso!')
+                db.session.add(nuevo_paquete)#  registro en la base de datos el nuevo paquete
+                db.session.commit()# confirmo la transaccion en la base de datos
+                return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=sucursal).first(), msg = 'Registro Exitoso!')
             except Exception as e:
                 print(str(e))
-                msg = f'Hubo un error al registrar el paquete'
-                return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=id_sucursal).first(), msg = msg)
-    else:
-        id_sucursal = sucursal
-        return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=id_sucursal).first())
+                msg = 'Hubo un error al registrar el paquete'
+                return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=sucursal).first(), msg = msg)
+    else:#   renderiza la pagina en caso de no recibir ninguna peticion post
+        return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=sucursal).first())
 
 @app.route('/solicitar_transporte/<int:sucursal>', methods=['GET', 'POST'])
 def solicitar_transporte(sucursal):
