@@ -1,8 +1,13 @@
-from __main__ import app
+from __main__ import app #importando la instancia de la aplicación Flask (app) desde el módulo principal (__main__).
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy(app)
-
+"""
+Aquí se crea una instancia de SQLAlchemy llamada db y se le pasa la instancia de la aplicación 
+Flask (app) como argumento. Esto vincula la instancia de SQLAlchemy (db) con la configuración 
+de la aplicación Flask (app), permitiendo que SQLAlchemy acceda y gestione la base de datos que 
+especificas en la configuración de Flask.
+"""
 class Sucursal(db.Model):
     __tablename__ = 'sucursal'
     id = db.Column(db.Integer, primary_key = True)
