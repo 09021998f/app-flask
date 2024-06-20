@@ -81,6 +81,20 @@ def registrar_transporte():
         msg = f'Hubo un error al registrar el transporte'
         return render_template('lista_paquetes.html', paquetes = paquetes_obt, msg = msg)
         
+@app.route('/llegada_transporte/<int:sucursal>', methods = ['GET', 'POST'])
+def llegada_transporte(sucursal):
+    if request.method == 'POST':
+        sucursal_acutal = Sucursal.query.filter_by(id = sucursal).first()
+        trasnporte_elegido = request.form.get('transporte')
+        transporte_actual = Transporte.query.filter_by(id = trasnporte_elegido).first()
+        transporte_actual.fechahorallegada = datetime.now()
+        db.session.commit()
+        msg='Registo de llegada exitoso'
+        return render_template('llegada_transporte.html', transportes = Transporte.query.all(), sucursal = sucursal_acutal, msg = msg)
+    else:
+        sucursal_acutal = Sucursal.query.filter_by(id = sucursal).first()
+        return render_template('llegada_transporte.html', transportes = Transporte.query.all(), sucursal = sucursal_acutal)
+
 
 if __name__ == '__main__':
     with app.app_context():

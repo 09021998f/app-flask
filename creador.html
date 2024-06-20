@@ -1,2 +1,19 @@
-<h1>Paquetes</h1>
-<p></p>
+<div class="contenedor_llegada">
+    <h1>Transportes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Numero transporte</th>
+                <th>Fecha y hora de salida</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transporte in transportes %}
+            <tr>
+                <td>{{ transporte.numerotransporte }}</td>
+                <td>{{ transporte.fechahorasalida }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
