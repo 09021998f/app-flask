@@ -25,20 +25,20 @@
             {% endfor %}
         </tbody>
     </table>
-    
+    <div class="container_check">
     <form action="{{url_for('registrar_transporte')}}" method="post">
         <h2>Seleccionar Paquetes:</h2>
         {% for paquete in paquetes %}
-            <div>
+            <div class="checkbox-group">
                 <input type="checkbox" id="paquete{{ paquete.id }}" name="paquetes[]" value="{{ paquete.id }}">
                 <label for="paquete{{ paquete.id }}">Numero de envio: {{ paquete.numeroenvio }}</label>
             </div>
         {% endfor %}
         <input id="sucId" name="sucId" type="hidden" value="{{sucursal}}">
-        <button type="submit">Registrar paquete</button>
+        <button type="submit" class="submit-button">Registrar paquete</button>
     </form>
-    <p> {{msg}} </p>
-
+    <p class="message"> {{msg}} </p>
+    </div>
 </div>
 
 {%endblock%}
