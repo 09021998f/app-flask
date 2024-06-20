@@ -1,8 +1,7 @@
 from flask import Flask, request, render_template
 from datetime import datetime
-from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
+
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -38,7 +37,7 @@ def registrar_paquete(sucursal):
                 
                 db.session.add(nuevo_paquete)
                 db.session.commit()
-                return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=id_sucursal).first(), msg = 'Registo Exitoso!')
+                return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=id_sucursal).first(), msg = 'Registro Exitoso!')
             except Exception as e:
                 print(str(e))
                 msg = f'Hubo un error al registrar el paquete'
@@ -47,18 +46,41 @@ def registrar_paquete(sucursal):
         id_sucursal = sucursal
         return render_template('registrar_paquete.html', sucursal= Sucursal.query.filter_by(id=id_sucursal).first())
 
-@app.route('/solicitar_transporte/<int:sucursal>', methods = ['GET', 'POST'])
+@app.route('/solicitar_transporte/<int:sucursal>', methods=['GET', 'POST'])
 def solicitar_transporte(sucursal):
     if request.method == 'POST':
         sucursal_destino = request.form.get('sucursal')
         paquetes_obt = Paquete.query.filter_by(idsucursal = sucursal).all()
-        print(paquetes_obt)
         if paquetes_obt == []:
             return render_template('solicitar_transporte.html', sucursales = Sucursal.query.all(), msg = 'No hay paquetes en esta sucursal disponibles')
-        return render_template('lista_paquetes.html', paquetes = paquetes_obt )
+        return render_template('lista_paquetes.html', paquetes = paquetes_obt, sucursal = sucursal_destino)
     else:
-        return render_template('solicitar_transporte.html', sucursales = Sucursal.query.all()  )
+        return render_template('solicitar_transporte.html', sucursales=Sucursal.query.all())
 
+
+@app.route('/registrar_transporte', methods = ['GET', 'POST'])
+def registrar_transporte():
+    try:
+        paquetes_obt = request.form.getlist('paquetes[]')
+        sucursal_destino = request.form.get('sucId')
+        print(sucursal_destino)
+        ultimo_transporte = Transporte.query.order_by(Transporte.id.desc()).first()
+        nuevo_nro_transporte = ultimo_transporte.numerotransporte + 1
+        nuevo_transporte = Transporte(numerotransporte = nuevo_nro_transporte, fechahorasalida = datetime.now(), idsucursal = sucursal_destino)
+        db.session.add(nuevo_transporte)
+        db.session.commit()
+        for paq in paquetes_obt:
+            ultimo = Transporte.query.order_by(Transporte.id.desc()).first()
+            paquete = Paquete.query.filter_by(id = paq).first()
+            
+            paquete.idtransporte = ultimo.id
+            db.session.commit()
+        return render_template('mensage.html', msg = 'Registro Exitoso!')
+    except Exception as e:
+        print(str(e))
+        msg = f'Hubo un error al registrar el transporte'
+        return render_template('lista_paquetes.html', paquetes = paquetes_obt, msg = msg)
+        
 
 if __name__ == '__main__':
     with app.app_context():
